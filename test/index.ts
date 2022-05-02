@@ -2,6 +2,11 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 
 describe("GovernanceCracking", function () {
+  describe("Deployment", function () {
+
+  });
+
+
   it("Should set electionsCount to zerro once contract is created", async function () {
     const CrackingGovernance = await ethers.getContractFactory("CrackingGovernance");
     const cracker = await CrackingGovernance.deploy();
@@ -10,13 +15,13 @@ describe("GovernanceCracking", function () {
     expect(await cracker.getNumbersOfElection()).to.equal("0");
     
 
-    const createGovernanceVotingTx = await cracker.newGovernanceElection();
+    const createGovernanceVotingTx = await cracker.addVoting();
 
     expect(createGovernanceVotingTx.value).to.equal(0);
     
     const [owner, firstacc, secondacc] = await ethers.getSigners();
 
-    let getELectionState = await cracker.getELection(0)
+    let getELectionState = await cracker.getElection(0)
 
     // console.log(heh);
     // console.log("election map is: ",getELectionState)
@@ -41,7 +46,7 @@ describe("GovernanceCracking", function () {
     // await voteTx4.wait();
     
 
-    getELectionState = await cracker.getELection(0)
+    getELectionState = await cracker.getElection(0)
 
     // console.log(heh);
 
@@ -49,7 +54,7 @@ describe("GovernanceCracking", function () {
     // expect().to.equal("fwef");
 
 
-    const callForEnd = await cracker.connect(firstacc).finishGovernanceElection(0);
+    const callForEnd = await cracker.connect(firstacc).finish(0);
 
     const fwefe = await callForEnd.wait();
     // console.log('declare the winner: ',fwefe);

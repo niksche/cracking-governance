@@ -13,6 +13,9 @@ contract CrackingGovernance {
     string private msgToCaller;
     address private owner;
 
+    event NewVotingAdded(address voter, uint electionId);
+    event NewVote(address voter, address candidate, uint currentVotesForCandidate, uint currentLiderVotes);
+    event VoteFinished(uint electionId, address finishCallerId, address winner, uint totalPrize);
 
     struct Election {
         uint256 creationTimestamp;
@@ -34,15 +37,16 @@ contract CrackingGovernance {
         creationTimestamp = block.timestamp;
     }
 
-    function newGovernanceElection() public returns (uint electionID) {
+    function addVoting() public returns (uint electionID) {
         electionID = numberOfElection++;
         Election storage e = elections[electionID];
         e.creationTimestamp = block.timestamp;
         e.depositedEthAmount = 0 wei;
         e.active = true;
+        emit NewVotingAdded(msg.sender, electionID);
     }
 
-    function getELection(uint electionID) public view returns (uint256, uint, address, uint) {
+    function getElection(uint electionID) public view returns (uint256, uint, address, uint) {
         Election storage e  =  elections[electionID];
         return (e.creationTimestamp, e.depositedEthAmount, e.currentLider, e.currentMaxVotes);
     }
@@ -51,14 +55,25 @@ contract CrackingGovernance {
         return numberOfElection;
     }
 
-    function vote(uint electionID, address candidate) public payable {
+    function vote(uint electionID, address candidate) public payable returns (uint currentVotesForCandidate, uint currentLiderVotes) {
         Election storage e = elections[electionID];
         assert(e.active == true);
+                        console.log(
+            "passed assert(e.active == true);"
+        );
         assert(e.voters[msg.sender] == false);
+
+                console.log(
+            "passed assert(e.voters[msg.sender] == false);"
+        );
         // if (block.timestamp > auctionEndTime)
         //     revert AuctionAlreadyEnded();
         
         assert(msg.value == 10000000000000000 wei);
+
+        console.log(
+            "passed all asserts"
+        );
 
         if (e.currentMaxVotes < ++e.voteCounter[candidate]) {
             e.currentLider = candidate;
@@ -68,7 +83,10 @@ contract CrackingGovernance {
         e.voters[msg.sender] = true;
         e.depositedEthAmount += 10000000000000000 wei;
         e.totalVotes++;
+        currentVotesForCandidate = e.voteCounter[candidate];
+        currentLiderVotes = e.currentMaxVotes;
         console.log("heh", e.depositedEthAmount);
+        emit NewVote(msg.sender, candidate, currentVotesForCandidate, currentLiderVotes);
     }
 
     function getElectionDetail(uint electionID) public view returns (bool, uint256, uint, address, uint, uint) {
@@ -86,8 +104,9 @@ contract CrackingGovernance {
     }
 
 
-    function finishGovernanceElection(uint electionID) public payable returns (address) {
+    function finish(uint electionID) public payable returns (address) {
         Election storage e = elections[electionID];
+        // TODO: set up timer for 3 days
         require(block.timestamp > e.creationTimestamp + 0 minutes);
 
         address winner = e.currentLider;
@@ -104,8 +123,13 @@ contract CrackingGovernance {
         // check whether that works or not;
         payable(winner).transfer(weiAmountToWinner);
 
+        emit VoteFinished(electionID, msg.sender, winner, weiAmountToWinner);
+
         return winner;
 
     }
+
+    // TODO: add helper view function which provide information about voters; 
+    // TODO: refactor naming, instead of newVoting -> addVoting, instead of finishGovernanceElection -> finish();
 
 }

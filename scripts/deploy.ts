@@ -26,7 +26,7 @@ async function main() {
 
   await cracker.deployed();
 
-  console.log("Greeter deployed to:", cracker.address);
+  console.log("CrackingGovernance deployed to:", cracker.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
