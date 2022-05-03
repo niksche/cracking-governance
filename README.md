@@ -1,5 +1,7 @@
 # Cracking governance
 
+![crackingGovernanceScheme](https://my.vcv.ru/storage/company-file/586d7126ba7e4610e36f9abf3170eef4/12310/586d7126ba7e4610e36f9abf3170eef4.jpeg)
+
 This project aims to challenge myself in writing smart contracts
 The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
@@ -26,6 +28,7 @@ npx hardhat run scripts/deploy.ts --network localhost
 npx hardhat create_governance_voting --network localhost --address 0x5FbDB2315678afecb367f032d93F642f64180aa3
 npx hardhat vote --show-stack-traces --network localhost --address  0x5FbDB2315678afecb367f032d93F642f64180aa3 --candidate-address 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --election-id 0
 npx hardhat finish --show-stack-traces --network localhost --address  0x5FbDB2315678afecb367f032d93F642f64180aa3  --election-id 0
+
 ```
 
 # Etherscan verification
