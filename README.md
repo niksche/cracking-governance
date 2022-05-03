@@ -3,9 +3,9 @@
 ![crackingGovernanceScheme](https://my.vcv.ru/storage/company-file/586d7126ba7e4610e36f9abf3170eef4/12310/586d7126ba7e4610e36f9abf3170eef4.jpeg)
 
 This project aims to challenge myself in writing smart contracts
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+The project comes with a crackingGovernance contract, a test for that contract, a script that deploys that contract, and few tasks implementation, which calls contract's methods. It also comes with a variety of other tools, configured to work with the project code.
 
-Try running some of the following tasks:
+Supported commands:
 
 ```shell
 npx hardhat accounts
