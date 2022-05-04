@@ -53,10 +53,8 @@ contract CrackingGovernance {
         Election storage e = elections[electionID];
         assert(e.active == true);
 
-        );
         assert(e.voters[msg.sender] == false);
 
-        );
         // if (block.timestamp > auctionEndTime)
         //     revert AuctionAlreadyEnded();
         
