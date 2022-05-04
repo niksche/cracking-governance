@@ -2,12 +2,6 @@
 
 pragma solidity >=0.8.0 <=0.9.0;
 
-import "hardhat/console.sol";
-
-
-// understand how to handle money storage
-// for example someone sends me money, where does contract put it at the firts place
-
 contract CrackingGovernance {
     uint256 private creationTimestamp;
     string private msgToCaller;
@@ -58,22 +52,16 @@ contract CrackingGovernance {
     function vote(uint electionID, address candidate) public payable returns (uint currentVotesForCandidate, uint currentLiderVotes) {
         Election storage e = elections[electionID];
         assert(e.active == true);
-                        console.log(
-            "passed assert(e.active == true);"
+
         );
         assert(e.voters[msg.sender] == false);
 
-                console.log(
-            "passed assert(e.voters[msg.sender] == false);"
         );
         // if (block.timestamp > auctionEndTime)
         //     revert AuctionAlreadyEnded();
         
         assert(msg.value == 10000000000000000 wei);
 
-        console.log(
-            "passed all asserts"
-        );
 
         if (e.currentMaxVotes < ++e.voteCounter[candidate]) {
             e.currentLider = candidate;
@@ -85,7 +73,6 @@ contract CrackingGovernance {
         e.totalVotes++;
         currentVotesForCandidate = e.voteCounter[candidate];
         currentLiderVotes = e.currentMaxVotes;
-        console.log("heh", e.depositedEthAmount);
         emit NewVote(msg.sender, candidate, currentVotesForCandidate, currentLiderVotes);
     }
 
@@ -111,14 +98,9 @@ contract CrackingGovernance {
 
         address winner = e.currentLider;
         // TODO: add safemath for calculation 0.9 from deposited amount
-        console.log("full deposit: ", e.depositedEthAmount);
         uint weiAmountToWinner = e.depositedEthAmount * 9 / 10;
 
-        console.log("full deposit: ", weiAmountToWinner);
-
         e.active = false;
-
-        console.log("balance before: ", address(winner).balance);
 
         // check whether that works or not;
         payable(winner).transfer(weiAmountToWinner);
