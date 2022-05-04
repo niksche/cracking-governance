@@ -57,7 +57,8 @@ describe("Cracking governance contract", function () {
       const callForEnd = await CrackingGovernance.connect(account1).finish(0);
       const comissionTx = await CrackingGovernance.connect(owner).withdrawComission(0);
 
-
+      const getElectiontx = await CrackingGovernance.getElection(0);
+      const getElectionDetailTx = await CrackingGovernance.getElectionDetail(0);
       const fwefe = await callForEnd.wait();
     })
   })
