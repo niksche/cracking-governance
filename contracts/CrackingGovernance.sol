@@ -81,7 +81,7 @@ contract CrackingGovernance {
 
 
     function withdrawComission(uint electionID) public payable {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Owner only function");
         Election storage e = elections[electionID];
         require(e.active == false);
         uint weiAmountComission = e.depositedEthAmount / 10;
